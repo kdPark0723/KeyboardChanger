@@ -7,7 +7,6 @@ import org.springframework.web.reactive.function.server.router
 val handler = GetChangedKeyboardStringFromEnglishHandler()
 
 val route = router {
-    // (1)
     accept(APPLICATION_JSON).nest {
         GET("/english/{value}", handler::handleRequest)
     }

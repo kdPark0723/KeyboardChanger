@@ -22,7 +22,7 @@ class GetChangedKeyboardStringFromEnglishApi(
 
     private fun getChangedKeyboardString(value: String): WebTestClient.ResponseSpec {
         return client.get()
-            .uri("$url/$value")
+            .uri("$url/$value?type=ko")
             .exchange()
     }
 }
