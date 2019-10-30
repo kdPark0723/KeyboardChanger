@@ -1,4 +1,4 @@
-package com.kdpark0723.KeyboardChanger
+package com.kdpark0723.keyboardchanger
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
