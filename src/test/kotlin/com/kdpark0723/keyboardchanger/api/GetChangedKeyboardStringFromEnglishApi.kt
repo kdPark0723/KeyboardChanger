@@ -8,7 +8,7 @@ class GetChangedKeyboardStringFromEnglishApi(
     private val client: WebTestClient
 ) : Api() {
 
-    private val url = "english"
+    private val url = "/english"
 
     fun getChangedKeyboardStringSuccess(value: String): KeyboardString {
         val response = getChangedKeyboardString(value)
