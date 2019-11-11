@@ -1,19 +1,18 @@
 package com.kdpark0723.keyboardchanger.unit
 
 import com.kdpark0723.keyboardchanger.api.GetChangedKeyboardStringFromEnglishApi
+import com.kdpark0723.keyboardchanger.route.RoutesConfig
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@ExtendWith(SpringExtension::class)
-@WebFluxTest
-class GetChangedKeyboardStringFromEnglishTest {
 
-    @Autowired
-    private lateinit var client: WebTestClient
+class GetChangedKeyboardStringFromEnglishTest(
+    @Autowired config: RoutesConfig
+) : ServerTest() {
+    private val client = WebTestClient
+        .bindToRouterFunction(config.routes())
+        .build()
 
     private val api = GetChangedKeyboardStringFromEnglishApi(client)
 
@@ -21,4 +20,5 @@ class GetChangedKeyboardStringFromEnglishTest {
     fun getChangedKeyboardStringFromEnglishTestSuccess() {
         api.getChangedKeyboardStringSuccess("xptmxm")
     }
+
 }
