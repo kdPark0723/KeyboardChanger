@@ -11,7 +11,7 @@ class GetChangedKeyboardStringFromEnglishApi(
 
     private val url = "/english"
 
-    fun getChangedKeyboardStringSuccess(value: String, type: String = "ko"): KeyboardString {
+    fun getChangedKeyboardStringSuccess(value: String, type: String = "ko"): KeyboardString? {
         val response = getChangedKeyboardString(value, type)
 
         val responseBodySpec = response
@@ -21,7 +21,7 @@ class GetChangedKeyboardStringFromEnglishApi(
         return getResponseBody(responseBodySpec)
     }
 
-    fun getChangedKeyboardStringFailBecauseForbidden(value: String, type: String = "ko"): ErrorResponse {
+    fun getChangedKeyboardStringFailBecauseForbidden(value: String, type: String = "ko"): ErrorResponse? {
         val response = getChangedKeyboardString(value, type)
 
         val responseBodySpec = response
