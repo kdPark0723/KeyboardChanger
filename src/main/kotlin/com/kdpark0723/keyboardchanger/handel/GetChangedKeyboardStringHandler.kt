@@ -1,5 +1,7 @@
 package com.kdpark0723.keyboardchanger.handel
 
+import com.kdpark0723.keyboardchanger.error.AppError
+import com.kdpark0723.keyboardchanger.error.ForbiddenError
 import com.kdpark0723.keyboardchanger.model.KeyboardString
 import com.kdpark0723.keyboardchanger.model.KeyboardType
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -20,11 +22,11 @@ abstract class GetChangedKeyboardStringHandler {
 
                 Mono.fromCallable { change(KeyboardString(value, inputType), type) }
                     .map {
-                        if (it.type != type) RuntimeException("Return type is not same.")
+                        if (it.type != type) AppError(message = "Return type is not same.")
 
                         it
                     }
-            }.orElseThrow { RuntimeException("Unsupported type error.") }
+            }.orElseThrow { ForbiddenError(message = "Unsupported type error.") }
 
         return ServerResponse.ok().contentType(APPLICATION_JSON)
             .body(doChange, KeyboardString::class.java)
@@ -33,7 +35,7 @@ abstract class GetChangedKeyboardStringHandler {
     private fun getType(type: String) = when (type) {
         "ko" -> KeyboardType.KOREAN
         "en" -> KeyboardType.ENGLISH
-        else -> throw RuntimeException("Unsupported type error.")
+        else -> throw ForbiddenError(message = "Unsupported type error.")
     }
 
     abstract fun change(string: KeyboardString, requireType: KeyboardType): KeyboardString

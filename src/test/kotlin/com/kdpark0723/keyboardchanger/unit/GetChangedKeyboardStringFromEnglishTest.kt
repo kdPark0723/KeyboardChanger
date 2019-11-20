@@ -21,4 +21,9 @@ class GetChangedKeyboardStringFromEnglishTest(
         api.getChangedKeyboardStringSuccess("xptmxm")
     }
 
+    @Test
+    fun getChangedKeyboardStringFromEnglishTestFailBecauseTypeIsInvalid() {
+        api.getChangedKeyboardStringFailBecauseForbidden("xptmxm", "invalid")
+    }
+
 }
