@@ -3,7 +3,6 @@ package keyboardchanger.handel;
 import com.kdpark0723.keyboardchanger.handel.GetChangedKeyboardStringHandler;
 import com.kdpark0723.keyboardchanger.model.KeyboardString;
 import com.kdpark0723.keyboardchanger.model.KeyboardType;
-import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -12,39 +11,44 @@ import java.util.Arrays;
 public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboardStringHandler {
 
 
-    static private final ArrayList<String> KoreanCharacters = new ArrayList<>(
-            Arrays.asList("ㅂ","ㅈ","ㄷ","ㄱ","ㅅ","ㅛ","ㅕ","ㅑ","ㅐ","ㅔ","ㅁ","ㄴ","ㅇ","ㄹ","ㅎ","ㅗ","ㅓ","ㅏ","ㅣ","ㅋ","ㅌ","ㅊ","ㅍ","ㅠ","ㅜ","ㅡ","ㅃ","ㅉ","ㄸ","ㄲ",
-                    "ㅆ","ㅒ","ㅖ")
+    static private final ArrayList<Character> KoreanCharacters = new ArrayList<>(
+            Arrays.asList('ㅂ','ㅈ','ㄷ','ㄱ','ㅅ','ㅛ','ㅕ','ㅑ','ㅐ','ㅔ','ㅁ','ㄴ','ㅇ','ㄹ','ㅎ','ㅗ','ㅓ','ㅏ','ㅣ','ㅋ','ㅌ','ㅊ','ㅍ','ㅠ','ㅜ','ㅡ','ㅃ','ㅉ','ㄸ','ㄲ',
+                    'ㅆ','ㅒ','ㅖ')
     );
-    static private final ArrayList<String> EnglishCharacters = new ArrayList<>(
-            Arrays.asList("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m","Q","W","E","R",
-                    "T","O","P")
+    static private final ArrayList<Character> EnglishCharacters = new ArrayList<>(
+            Arrays.asList('q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m','Q','W','E','R',
+                    'T','O','P')
     );
-    static private final ArrayList<String> KoreanConsonants = new ArrayList<>(
-            Arrays.asList("ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ")
-    );
-
-    static private final ArrayList<String> DoubleKoreanConsonants = new ArrayList<>(
-            Arrays.asList("ㄲ","ㄸ","ㅃ","ㅆ","ㅉ")
-    );
-    static private final ArrayList<String> KoreanVowels = new ArrayList<>(
-            Arrays.asList("ㅏ","ㅑ","ㅓ","ㅕ","ㅗ","ㅛ","ㅜ","ㅠ","ㅡ","ㅣ","ㅐ","ㅖ")
+    static private final ArrayList<Character> KoreanConsonants = new ArrayList<>(
+            Arrays.asList('ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ')
     );
 
+    static private final ArrayList<Character> DoubleKoreanConsonants = new ArrayList<>(
+            Arrays.asList('ㄲ','ㄸ','ㅃ','ㅆ','ㅉ')
+    );
+    static private final ArrayList<Character> KoreanVowels = new ArrayList<>(
+            Arrays.asList('ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅖ')
+    );
 
 
-    private void splitInputString(@NotNull String inputString, @NotNull ArrayList<String> splitedStringArray) {
+
+    private void splitInputString(@NotNull String inputString, @NotNull ArrayList<Character> splitedStringArray) {
         String[] splitedString = inputString.split("");
 
         for(int i = 0 ; i < splitedString.length ; i++){
-            splitedStringArray.add(splitedString[i]);
+            splitedStringArray.add(splitedString[i].charAt(0));
         }
     }
 
-    private void changeEnglish2Korean(@NotNull ArrayList<String> splitedStringArray, @NotNull ArrayList<String> splitedKoreanArray){
-        for(int i = 0 ; i < splitedStringArray.size() ; i++){
-            splitedKoreanArray.add(KoreanCharacters.get(EnglishCharacters.indexOf(splitedStringArray.get(i))));
-        }
+    private void changeEnglish2Korean(@NotNull ArrayList<Character> splitedStringArray, @NotNull ArrayList<Character> splitedKoreanArray) {
+        for (int i = 0; i < splitedStringArray.size(); i++) {
+            if (EnglishCharacters.contains(splitedStringArray.get(i))) {
+                splitedKoreanArray.add(KoreanCharacters.get(EnglishCharacters.indexOf(splitedStringArray.get(i))));
+            }
+            else {
+                splitedKoreanArray.add(splitedStringArray.get(i));
+            }
+        }//특수문자의 상황 추가할 것
     }
 
     private static String decode(String uni){
@@ -68,7 +72,7 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
 
     private static int jungsungCodePoint(Character jungsung){
         final ArrayList<Character> jungsungArray = new ArrayList<>(
-                Arrays.asList('ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅠ', 'ㅘ', 'ㅛ', 'ㅙ', 'ㅚ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅡ', 'ㅢ', 'ㅑ')
+                Arrays.asList('ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅠ', 'ㅘ', 'ㅛ', 'ㅙ', 'ㅚ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅡ', 'ㅢ', 'ㅣ')
         );
 
         return jungsungArray.indexOf(jungsung);
@@ -84,135 +88,170 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
     }
 
     @NotNull
-    private String assembleSyllable(Character chosung, Character jungsung, Character jongsung){
-        int a = chosungCodePoint(chosung);
-        int b = jungsungCodePoint(jungsung);
-        int c = jongsungCodePoint(jongsung);
+    private int assembleSyllable(Character chosung, Character jungsung, Character jongsung){
         Character A = '\uAC00';
-        return "\\u"+Integer.toHexString(A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint(jongsung));
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint(jongsung);
     }
 
-    private void assembleSpilitedKorean(@NotNull ArrayList<String> splitedKoreanArray, @NotNull ArrayList<String> resultKoreanArray) {
+    private int assembleSyllable(Character chosung, Character jungsung){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28;
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung, int jongsungCodePoint){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint;
+    }
+
+    private boolean isDoubleConsonant(Character consonant1, Character consonant2){
+        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
+            return true;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
+            return true;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
+            return true;
+        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
+            return true;
+        else
+            return false;
+    }
+
+    private int convertDoubleConsonant(Character consonant1, Character consonant2){
+        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
+            return 3;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
+            return 5;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
+            return 6;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
+            return  9;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
+            return 10;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
+            return 11;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
+            return 12;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
+            return 13;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
+            return 14;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
+            return 15;
+        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
+            return 18;
+        else
+            return 0;
+    }
+
+    private void assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
         String tempString = null;
-        Character a = '\uAC00';
-        ArrayList<String> tempArray = new ArrayList<>();  //중간 저장 문자열
+        Character A = '\uAC00';
+        ArrayList<Character> tempArray = new ArrayList<>();  //중간 저장 문자열
         int resultKoreanArrayIndex = -1;
+        int i;
+        int tempDoubleConsonantCodePoint;
+        Character previousLetter;
 
-        for (int i = 0; i < splitedKoreanArray.size() - 1; i++) {
+        for (i = 0; i <= splitedKoreanArray.size() - 1; i++) {
             tempArray.clear();
-
-            if (i > 0 && i < splitedKoreanArray.size() - 2) {
-                if (KoreanVowels.contains(splitedKoreanArray.get(i))) {
-                    for (int j = i - 1 ; j < i + 3 ; j++) {
+            if(KoreanCharacters.contains(splitedKoreanArray.get(i))){
+                if(KoreanConsonants.contains(splitedKoreanArray.get(i))){
+                    for(int j = i ; j < i + 5 && j < splitedKoreanArray.size() ; j++){
                         tempArray.add(splitedKoreanArray.get(j));
                     }
 
-                    if(KoreanConsonants.contains(tempArray.get(0))){
-//                        if(KoreanConsonants.contains(tempArray.get(2)) && KoreanConsonants.contains(tempArray.get(3))){
-//                            resultKoreanArray.add( decode("\\u" + Integer.toHexString(a + ((tempArray.get(0).charAt(0)*21)+tempArray.get(1).charAt(0)) + (tempArray.get(2).charAt(0) + tempArray.get(3).charAt(0)))));
-//                            resultKoreanArrayIndex++;
-//                        }
-                        if(KoreanConsonants.contains(tempArray.get(2))){
-                            resultKoreanArray.set(resultKoreanArrayIndex, decode(assembleSyllable(tempArray.get(0).charAt(0), tempArray.get(1).charAt(0), tempArray.get(2).charAt(0))));
+                    if(KoreanVowels.contains(tempArray.get(1))){
+                        //단어 조합
+                        if(tempArray.size() >= 5 && KoreanConsonants.contains(tempArray.get(2)) && KoreanVowels.contains(tempArray.get(4))) {
+                            //tempDoubleConsonant = convertDoubleConsonant(tempArray.get(2), tempArray.get(3));
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1),tempArray.get(2)));
                             resultKoreanArrayIndex++;
-                            i++;
+                            i = i + 2;
+                        }
+                        else if(tempArray.size() >= 5 && isDoubleConsonant(tempArray.get(2), tempArray.get(3)) && !KoreanVowels.contains(tempArray.get(4))) {
+                            tempDoubleConsonantCodePoint = convertDoubleConsonant(tempArray.get(2), tempArray.get(3));
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1), tempDoubleConsonantCodePoint));
+                            resultKoreanArrayIndex++;
+                            i = i + 3;
+                        }
+
+                        else if(tempArray.size() >= 4 && KoreanConsonants.contains(tempArray.get(2)) && KoreanVowels.contains(tempArray.get(3))){
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
+                            resultKoreanArrayIndex++;
+                            i = i + 1;
+                        }
+
+                        else if(tempArray.size() >= 3 && KoreanConsonants.contains(tempArray.get(2))){
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1),tempArray.get(2)));
+                            resultKoreanArrayIndex++;
+                            i = i + 2;
+                        }
+
+                        else if(tempArray.size() >= 3 && !KoreanConsonants.contains(tempArray.get(2))){
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
+                            resultKoreanArrayIndex++;
+                            i = i + 1;
+                        }
+
+                        else if(tempArray.size() >= 2 && KoreanVowels.contains(tempArray.get(1))){
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
+                            resultKoreanArrayIndex++;
+                            i = i + 1;
+                        }
+                        else{
+                            resultKoreanArray.add(splitedKoreanArray.get(i));
+                            resultKoreanArrayIndex++;
                         }
                     }
                     else{
-                        resultKoreanArray.add(tempArray.get(1));
+                        resultKoreanArray.add(splitedKoreanArray.get(i));
                         resultKoreanArrayIndex++;
-                    }
+                    } // 자음뒤에 자음인 경우
                 }
-
-                else if(KoreanConsonants.contains(splitedKoreanArray.get(i))){
+                else{
                     resultKoreanArray.add(splitedKoreanArray.get(i));
-
-                    if(i == splitedKoreanArray.size() - 3){
-                        for(int j = splitedKoreanArray.size() - 3 ; j < splitedKoreanArray.size()  ; j++){
-                            tempArray.add(splitedKoreanArray.get(j));
-                        }
-                        if(KoreanVowels.contains(tempArray.get(1))){
-                            if(KoreanConsonants.contains(tempArray.get(2))){
-                                resultKoreanArray.set(resultKoreanArrayIndex, decode(assembleSyllable(tempArray.get(0).charAt(0), tempArray.get(1).charAt(0), tempArray.get(2).charAt(0))));
-                            }
-                        }
-                        else{
-                            resultKoreanArray.set(resultKoreanArrayIndex, assembleSyllable(tempArray.get(0).charAt(0), tempArray.get(1).charAt(0),' '));
-                        }
-                    }
-
-                    if(!KoreanVowels.contains(splitedKoreanArray.get(i+1))) {
-                        resultKoreanArrayIndex++;
-                    }
-
+                    resultKoreanArrayIndex++;
                 }
             }
             else{
                 resultKoreanArray.add(splitedKoreanArray.get(i));
                 resultKoreanArrayIndex++;
-            }
+            }//i번째 문자가 한글이 아닌 경우 그냥 출력
         }
-
-
-
-//        for(int i = 0 ; i < splitedKoreanArray.size() ; i++){
-//            tempArray.clear();
-//            tempArray.add(splitedKoreanArray.get(i));
-//            if(KoreanVowels.contains(splitedKoreanArray.get(i))){ //모음을 발견한 경우
-//                if(KoreanVowels.contains(tempArray.get(0))){
-//                    resultKoreanArray.addAll(tempArray);
-//                    resultKoreanArrayIndex++;
-//                }
-//                else{
-//                    for(int j = i-1 ; j < i + 2 || i <= splitedKoreanArray.size()-3; j++){
-//                        tempArray.add(splitedKoreanArray.get(j));
-//                    }
-//
-//                    if(KoreanVowels.contains(tempArray.get(0))){
-//                        resultKoreanArray.add(tempArray.get(1));
-//                        resultKoreanArrayIndex++;
-//                        continue;
-//                    }
-//                    else {
-//                       // resultKoreanArray.
-//                    }
-//                }
-//            }
-//            else{
-//                r
-//            }
-//
-//        }
     }
 
     @NotNull
     @Override
     public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
-        ArrayList<String> splitedStringArray = new ArrayList<>();
-        ArrayList<String> splitedKoreanArray = new ArrayList<>();
-        ArrayList<String> resultKoreanArray = new ArrayList<>();
+        ArrayList<Character> splitedStringArray = new ArrayList<>();
+        ArrayList<Character> splitedKoreanArray = new ArrayList<>();
+        ArrayList<Character> resultKoreanArray = new ArrayList<>();
         String inputString = string.getValue();
+        String tempString = null;
 
         splitInputString(inputString, splitedStringArray);
 
         if(requireType == string.getType()){
             changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
-            assembleSpilitedKorean(splitedKoreanArray, resultKoreanArray);
+            assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
+            for(int i = 0 ; i < resultKoreanArray.size() ; i++){
+                tempString += resultKoreanArray.get(i).toString();
+            }
         }
         return string;
-    }
-
-    public static void main(String[] args){
-        GetChangedKeyboardStringFromEnglishHandler changer = new GetChangedKeyboardStringFromEnglishHandler();
-
-        String testString = new String("dkssud");
-        ArrayList<String> testSplitedArray = new ArrayList<>();
-        ArrayList<String> splitedKoreanArray = new ArrayList<>();
-        ArrayList<String> resultKoreanArray = new ArrayList<>();
-
-        changer.splitInputString(testString, testSplitedArray);
-        changer.changeEnglish2Korean(testSplitedArray, splitedKoreanArray);
-        System.out.print(splitedKoreanArray);
-        changer.assembleSpilitedKorean(splitedKoreanArray, resultKoreanArray);
     }
 }
