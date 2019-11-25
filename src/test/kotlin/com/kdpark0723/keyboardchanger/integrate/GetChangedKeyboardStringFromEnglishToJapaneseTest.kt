@@ -1,20 +1,17 @@
-package com.kdpark0723.keyboardchanger.unit
+package com.kdpark0723.keyboardchanger.integrate
 
-import com.kdpark0723.keyboardchanger.api.GetChangedKeyboardStringFromEnglishApi
+import com.kdpark0723.keyboardchanger.api.GetChangedKeyboardStringFromEnglishToJapaneseApi
 import com.kdpark0723.keyboardchanger.route.RoutesConfig
+import com.kdpark0723.keyboardchanger.unit.ServerTest
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.web.reactive.server.WebTestClient
 
 
-class GetChangedKeyboardStringFromEnglishTest(
+class GetChangedKeyboardStringFromEnglishToJapaneseTest(
     @Autowired config: RoutesConfig
-) : ServerTest() {
-    private val client = WebTestClient
-        .bindToRouterFunction(config.routes())
-        .build()
+) : ServerTest(config) {
 
-    private val api = GetChangedKeyboardStringFromEnglishApi(client)
+    private val api = GetChangedKeyboardStringFromEnglishToJapaneseApi(client)
 
     @Test
     fun getChangedKeyboardStringFromEnglishTestSuccess() {

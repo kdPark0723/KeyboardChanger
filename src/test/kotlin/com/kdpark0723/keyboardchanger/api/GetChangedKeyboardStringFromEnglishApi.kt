@@ -5,13 +5,12 @@ import com.kdpark0723.keyboardchanger.response.ErrorResponse
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 
-class GetChangedKeyboardStringFromEnglishApi(
-    private val client: WebTestClient
+open class GetChangedKeyboardStringFromEnglishApi(
+    private val client: WebTestClient,
+    private val url: String
 ) : Api() {
 
-    private val url = "/english"
-
-    fun getChangedKeyboardStringSuccess(value: String, type: String = "ko"): KeyboardString? {
+    fun getChangedKeyboardStringSuccess(value: String, type: String = "en"): KeyboardString? {
         val response = getChangedKeyboardString(value, type)
 
         val responseBodySpec = response
@@ -21,7 +20,7 @@ class GetChangedKeyboardStringFromEnglishApi(
         return getResponseBody(responseBodySpec)
     }
 
-    fun getChangedKeyboardStringFailBecauseForbidden(value: String, type: String = "ko"): ErrorResponse? {
+    fun getChangedKeyboardStringFailBecauseForbidden(value: String, type: String = "en"): ErrorResponse? {
         val response = getChangedKeyboardString(value, type)
 
         val responseBodySpec = response
