@@ -5,7 +5,7 @@ import com.kdpark0723.keyboardchanger.model.KeyboardString;
 import com.kdpark0723.keyboardchanger.model.KeyboardType;
 import org.jetbrains.annotations.NotNull;
 
-public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboardStringHandler {
+public class GetChangedKeyboardStringToKoreanHandler extends GetChangedKeyboardStringHandler {
 
     @NotNull
     @Override
