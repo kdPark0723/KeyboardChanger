@@ -22,10 +22,6 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
     static private final ArrayList<Character> KoreanConsonants = new ArrayList<>(
             Arrays.asList('ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ')
     );
-
-    static private final ArrayList<Character> DoubleKoreanConsonants = new ArrayList<>(
-            Arrays.asList('ㄲ','ㄸ','ㅃ','ㅆ','ㅉ')
-    );
     static private final ArrayList<Character> KoreanVowels = new ArrayList<>(
             Arrays.asList('ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅖ')
     );
@@ -51,17 +47,6 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         }//특수문자의 상황 추가할 것
     }
 
-    private static String decode(String uni){
-        StringBuffer str = new StringBuffer();
-        for(int i= uni.indexOf("\\u") ; i > -1 ; i = uni.indexOf("\\u")){
-            str.append(uni.substring(0, i));
-            str.append(String.valueOf((char)Integer.parseInt(uni.substring(i + 2, i + 6),16)));
-            uni = uni.substring(i + 6);
-        }
-        str.append(uni);
-        return str.toString();
-    }
-
     private static int chosungCodePoint(Character chosung){
         final ArrayList<Character> chosungArray = new ArrayList<>(
                 Arrays.asList('ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
@@ -72,7 +57,7 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
 
     private static int jungsungCodePoint(Character jungsung){
         final ArrayList<Character> jungsungArray = new ArrayList<>(
-                Arrays.asList('ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅠ', 'ㅘ', 'ㅛ', 'ㅙ', 'ㅚ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅡ', 'ㅢ', 'ㅣ')
+                Arrays.asList('ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ')
         );
 
         return jungsungArray.indexOf(jungsung);
@@ -85,22 +70,6 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         );
 
         return jongsungArray.indexOf(jongsung);
-    }
-
-    @NotNull
-    private int assembleSyllable(Character chosung, Character jungsung, Character jongsung){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint(jongsung);
-    }
-
-    private int assembleSyllable(Character chosung, Character jungsung){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28;
-    }
-
-    private int assembleSyllable(Character chosung, Character jungsung, int jongsungCodePoint){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint;
     }
 
     private boolean isDoubleConsonant(Character consonant1, Character consonant2){
@@ -157,79 +126,187 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
             return 0;
     }
 
-    private void assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
-        String tempString = null;
+    private boolean isDoubleVowel(Character vowel1, Character vowel2){
+        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
+            return true;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
+            return true;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
+            return true;
+        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
+            return true;
+        else
+            return false;
+    }
+
+    private int convertDoubleVowel(Character vowel1, Character vowel2){
+        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
+            return 9;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
+            return 10;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
+            return 11;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
+            return 14;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
+            return 15;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
+            return 16;
+        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
+            return 19;
+        else
+            return 0;
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung, Character jongsung){
         Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint(jongsung);
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28;
+    }
+
+    private int assembleSyllable(Character chosung, int jungsungCodePoint){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28;
+    }
+
+    private int assembleSyllable(Character chosung, int jungsungCodePoint, Character jongsung){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28 + jongsungCodePoint(jongsung);
+    }
+
+    private int assembleSyllable(Character chosung, int jungsungCodePoint, int jongsungCodePoint){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28 + jongsungCodePoint;
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung, int jongsungCodePoint){
+        Character A = '\uAC00';
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint;
+    }
+
+    private void assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
         ArrayList<Character> tempArray = new ArrayList<>();  //중간 저장 문자열
-        int resultKoreanArrayIndex = -1;
         int i;
         int tempDoubleConsonantCodePoint;
-        Character previousLetter;
+        int tempDoubleVowelCodePoint;
 
         for (i = 0; i <= splitedKoreanArray.size() - 1; i++) {
             tempArray.clear();
             if(KoreanCharacters.contains(splitedKoreanArray.get(i))){
                 if(KoreanConsonants.contains(splitedKoreanArray.get(i))){
-                    for(int j = i ; j < i + 5 && j < splitedKoreanArray.size() ; j++){
+                    for(int j = i ; j < i + 6 && j < splitedKoreanArray.size() ; j++){
                         tempArray.add(splitedKoreanArray.get(j));
                     }
 
                     if(KoreanVowels.contains(tempArray.get(1))){
                         //단어 조합
-                        if(tempArray.size() >= 5 && KoreanConsonants.contains(tempArray.get(2)) && KoreanVowels.contains(tempArray.get(4))) {
-                            //tempDoubleConsonant = convertDoubleConsonant(tempArray.get(2), tempArray.get(3));
-                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1),tempArray.get(2)));
-                            resultKoreanArrayIndex++;
-                            i = i + 2;
+
+                        if(tempArray.size() >= 3 && KoreanVowels.contains(tempArray.get(2))){   //이중모음
+                            if(tempArray.size() >= 6 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && isDoubleConsonant(tempArray.get(3), tempArray.get(4)) && KoreanVowels.contains(tempArray.get(5))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint, tempArray.get(3)));
+                                i = i + 3;
+                            } //자음 + 이중모음 + 겹받침이지만 그 다음에 모음이 오기 때문에 연음
+                            else if(tempArray.size() >= 6 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && isDoubleConsonant(tempArray.get(3), tempArray.get(4)) && !KoreanVowels.contains(tempArray.get(5))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                tempDoubleConsonantCodePoint = convertDoubleConsonant(tempArray.get(3), tempArray.get(4));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint, tempDoubleConsonantCodePoint));
+                                i = i + 4;
+                            } //자음 + 이중모음 + 겹받침
+
+                            else if(tempArray.size() >= 5 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && isDoubleConsonant(tempArray.get(3), tempArray.get(4))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                tempDoubleConsonantCodePoint = convertDoubleConsonant(tempArray.get(3), tempArray.get(4));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint, tempDoubleConsonantCodePoint));
+                                i = i + 4;
+                            } //자음 + 이중모음 + 겹받침 (로 끝날 때)
+
+                            else if(tempArray.size() >= 5 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && KoreanConsonants.contains(tempArray.get(3)) && KoreanVowels.contains(tempArray.get(4))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint));
+                                i = i + 2;
+                            }  //자음 + 이중모음 + 홑받침이지만 그다음에 모음이와서 연음
+
+                            else if(tempArray.size() >= 4 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && KoreanConsonants.contains(tempArray.get(3))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint, tempArray.get(3)));
+                                i = i + 3;
+                            } //자음 + 이중모음 + 홑받침
+
+                            else if(tempArray.size() >= 4 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && !KoreanConsonants.contains(tempArray.get(3))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint));
+
+                                i = i + 2;
+                            }
+
+                            else if(tempArray.size() >= 3 && isDoubleVowel(tempArray.get(1), tempArray.get(2))){
+                                tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
+                                resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint));
+                                i = i + 2;
+                            }
                         }
+
                         else if(tempArray.size() >= 5 && isDoubleConsonant(tempArray.get(2), tempArray.get(3)) && !KoreanVowels.contains(tempArray.get(4))) {
                             tempDoubleConsonantCodePoint = convertDoubleConsonant(tempArray.get(2), tempArray.get(3));
                             resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1), tempDoubleConsonantCodePoint));
-                            resultKoreanArrayIndex++;
                             i = i + 3;
+                        } //자음 + 이중모음 + 모음이 아닐 때
+
+                        else if(tempArray.size() >= 5 && isDoubleConsonant(tempArray.get(2), tempArray.get(3)) && KoreanVowels.contains(tempArray.get(4))) {
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1), tempArray.get(2)));
+                            i = i + 2;
+                        } //자음 + 이중모음 + 모음 일 때
+
+                        else if(tempArray.size() >= 4 && isDoubleConsonant(tempArray.get(2), tempArray.get(3))){
+                            tempDoubleConsonantCodePoint = convertDoubleConsonant(tempArray.get(2), tempArray.get(3));
+                            resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempArray.get(1), tempDoubleConsonantCodePoint));
+                            i = i + 4;
                         }
 
                         else if(tempArray.size() >= 4 && KoreanConsonants.contains(tempArray.get(2)) && KoreanVowels.contains(tempArray.get(3))){
                             resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
-                            resultKoreanArrayIndex++;
                             i = i + 1;
-                        }
+                        } //자음 + 모음 (+자음 + 모음)
 
                         else if(tempArray.size() >= 3 && KoreanConsonants.contains(tempArray.get(2))){
                             resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1),tempArray.get(2)));
-                            resultKoreanArrayIndex++;
                             i = i + 2;
-                        }
+                        } // 자음 + 모음 + 자음
 
                         else if(tempArray.size() >= 3 && !KoreanConsonants.contains(tempArray.get(2))){
                             resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
-                            resultKoreanArrayIndex++;
                             i = i + 1;
                         }
 
                         else if(tempArray.size() >= 2 && KoreanVowels.contains(tempArray.get(1))){
                             resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
-                            resultKoreanArrayIndex++;
                             i = i + 1;
                         }
                         else{
                             resultKoreanArray.add(splitedKoreanArray.get(i));
-                            resultKoreanArrayIndex++;
                         }
                     }
                     else{
                         resultKoreanArray.add(splitedKoreanArray.get(i));
-                        resultKoreanArrayIndex++;
                     } // 자음뒤에 자음인 경우
                 }
                 else{
                     resultKoreanArray.add(splitedKoreanArray.get(i));
-                    resultKoreanArrayIndex++;
                 }
             }
             else{
                 resultKoreanArray.add(splitedKoreanArray.get(i));
-                resultKoreanArrayIndex++;
             }//i번째 문자가 한글이 아닌 경우 그냥 출력
         }
     }
@@ -241,17 +318,19 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         ArrayList<Character> splitedKoreanArray = new ArrayList<>();
         ArrayList<Character> resultKoreanArray = new ArrayList<>();
         String inputString = string.getValue();
-        String tempString = null;
-
+        String tempString = new String();
+        KeyboardString resultString;
         splitInputString(inputString, splitedStringArray);
+
 
         if(requireType == string.getType()){
             changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
             assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
             for(int i = 0 ; i < resultKoreanArray.size() ; i++){
-                tempString += resultKoreanArray.get(i).toString();
+                tempString.concat(resultKoreanArray.get(i).toString());
             }
         }
-        return string;
+        resultString = new KeyboardString(tempString, KeyboardType.ENGLISH);
+        return resultString;
     }
 }
