@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class GetChangedKeyboardStringToKoreanHandler extends GetChangedKeyboardStringHandler {
 
+    GetChangedKeyboardStringToKoreanHandler() {
+        super(KeyboardType.KOREAN);
+    }
+
     @NotNull
     @Override
     public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
