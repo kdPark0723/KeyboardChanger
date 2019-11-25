@@ -10,8 +10,9 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
 
-abstract class GetChangedKeyboardStringHandler {
-    protected var inputType: KeyboardType = KeyboardType.ENGLISH
+abstract class GetChangedKeyboardStringHandler(
+    private var requireType: KeyboardType = KeyboardType.ENGLISH
+) {
 
     fun handleRequest(request: ServerRequest): Mono<ServerResponse> {
         val value = request.pathVariable("value")
@@ -20,9 +21,9 @@ abstract class GetChangedKeyboardStringHandler {
             .map {
                 val type = getType(it)
 
-                Mono.fromCallable { change(KeyboardString(value, inputType), type) }
+                Mono.fromCallable { change(KeyboardString(value, type), requireType) }
                     .map {
-                        if (it.type != type) AppError(message = "Return type is not same.")
+                        if (it.type != type) throw AppError(message = "Return type is not same.")
 
                         it
                     }
@@ -35,6 +36,7 @@ abstract class GetChangedKeyboardStringHandler {
     private fun getType(type: String) = when (type) {
         "ko" -> KeyboardType.KOREAN
         "en" -> KeyboardType.ENGLISH
+        "jp" -> KeyboardType.JAPANESE
         else -> throw ForbiddenError(message = "Unsupported type error.")
     }
 
