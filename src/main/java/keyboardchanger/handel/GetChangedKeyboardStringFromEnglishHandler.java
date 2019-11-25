@@ -22,9 +22,97 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
     static private final ArrayList<Character> KoreanConsonants = new ArrayList<>(
             Arrays.asList('ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ')
     );
+
+
     static private final ArrayList<Character> KoreanVowels = new ArrayList<>(
             Arrays.asList('ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅖ')
     );
+
+    private boolean isDoubleConsonant(Character consonant1, Character consonant2){
+        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
+            return true;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
+            return true;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
+            return true;
+        else return consonant1.equals('ㅂ') && consonant2.equals('ㅅ');
+    }
+
+    private int convertDoubleConsonant(Character consonant1, Character consonant2){
+        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
+            return 3;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
+            return 5;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
+            return 6;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
+            return  9;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
+            return 10;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
+            return 11;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
+            return 12;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
+            return 13;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
+            return 14;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
+            return 15;
+        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
+            return 18;
+        else
+            return 0;
+    }
+
+    private boolean isDoubleVowel(Character vowel1, Character vowel2){
+        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
+            return true;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
+            return true;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
+            return true;
+        else return vowel1.equals('ㅡ') && vowel2.equals('ㅣ');
+    }
+
+    private int convertDoubleVowel(Character vowel1, Character vowel2){
+        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
+            return 9;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
+            return 10;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
+            return 11;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
+            return 14;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
+            return 15;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
+            return 16;
+        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
+            return 19;
+        else
+            return 0;
+    }
 
 
 
@@ -70,98 +158,6 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         );
 
         return jongsungArray.indexOf(jongsung);
-    }
-
-    private boolean isDoubleConsonant(Character consonant1, Character consonant2){
-        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
-            return true;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
-            return true;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
-            return true;
-        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
-            return true;
-        else
-            return false;
-    }
-
-    private int convertDoubleConsonant(Character consonant1, Character consonant2){
-        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
-            return 3;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
-            return 5;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
-            return 6;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
-            return  9;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
-            return 10;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
-            return 11;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
-            return 12;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
-            return 13;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
-            return 14;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
-            return 15;
-        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
-            return 18;
-        else
-            return 0;
-    }
-
-    private boolean isDoubleVowel(Character vowel1, Character vowel2){
-        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
-            return true;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
-            return true;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
-            return true;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
-            return true;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
-            return true;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
-            return true;
-        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
-            return true;
-        else
-            return false;
-    }
-
-    private int convertDoubleVowel(Character vowel1, Character vowel2){
-        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
-            return 9;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
-            return 10;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
-            return 11;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
-            return 14;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
-            return 15;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
-            return 16;
-        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
-            return 19;
-        else
-            return 0;
     }
 
     private int assembleSyllable(Character chosung, Character jungsung, Character jongsung){
@@ -246,7 +242,6 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
                             else if(tempArray.size() >= 4 && isDoubleVowel(tempArray.get(1), tempArray.get(2)) && !KoreanConsonants.contains(tempArray.get(3))){
                                 tempDoubleVowelCodePoint = convertDoubleVowel(tempArray.get(1), tempArray.get(2));
                                 resultKoreanArray.add((char)assembleSyllable(tempArray.get(0), tempDoubleVowelCodePoint));
-
                                 i = i + 2;
                             }
 
@@ -291,6 +286,7 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
 
                         else if(tempArray.size() >= 2 && KoreanVowels.contains(tempArray.get(1))){
                             resultKoreanArray.add((char)assembleSyllable(tempArray.get(0),tempArray.get(1)));
+
                             i = i + 1;
                         }
                         else{
@@ -318,8 +314,8 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         ArrayList<Character> splitedKoreanArray = new ArrayList<>();
         ArrayList<Character> resultKoreanArray = new ArrayList<>();
         String inputString = string.getValue();
-        String tempString = new String();
-        KeyboardString resultString;
+        String tempString = null;
+        KeyboardString resultString = null;
         splitInputString(inputString, splitedStringArray);
 
 
@@ -327,10 +323,11 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
             changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
             assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
             for(int i = 0 ; i < resultKoreanArray.size() ; i++){
-                tempString.concat(resultKoreanArray.get(i).toString());
+                tempString += resultKoreanArray.get(i).toString();
             }
         }
         resultString = new KeyboardString(tempString, KeyboardType.ENGLISH);
         return resultString;
     }
+
 }
