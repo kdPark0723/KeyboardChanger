@@ -1,14 +1,13 @@
-package keyboardchanger.handel;
+package com.kdpark0723.keyboardchanger.handel;
 
-import com.kdpark0723.keyboardchanger.handel.GetChangedKeyboardStringHandler;
 import com.kdpark0723.keyboardchanger.model.KeyboardString;
 import com.kdpark0723.keyboardchanger.model.KeyboardType;
 import org.jetbrains.annotations.NotNull;
 
-public class GetChangedKeyboardStringToKoreanHandler extends GetChangedKeyboardStringHandler {
+public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboardStringHandler {
 
-    GetChangedKeyboardStringToKoreanHandler() {
-        super(KeyboardType.KOREAN);
+    public GetChangedKeyboardStringToJapaneseHandler() {
+        super(KeyboardType.JAPANESE);
     }
 
     @NotNull
