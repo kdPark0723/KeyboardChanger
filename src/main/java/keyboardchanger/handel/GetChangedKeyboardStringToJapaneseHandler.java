@@ -284,7 +284,7 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
     public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
         String inputString = string.getValue();
         KeyboardString resultString;
-        if(requireType == string.getType()){
+        if(requireType == KeyboardType.JAPANESE && string.getType() == KeyboardType.ENGLISH){
             inputString = changeEnlish2Japanese(inputString);
             inputString = changeGatakana(inputString);
         }
