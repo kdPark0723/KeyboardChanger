@@ -22,8 +22,6 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
     static private final ArrayList<Character> KoreanConsonants = new ArrayList<>(
             Arrays.asList('ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ')
     );
-
-
     static private final ArrayList<Character> KoreanVowels = new ArrayList<>(
             Arrays.asList('ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅖ')
     );
@@ -114,17 +112,16 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
             return 0;
     }
 
-
-
-    private void splitInputString(@NotNull String inputString, @NotNull ArrayList<Character> splitedStringArray) {
+    private ArrayList<Character> splitInputString(@NotNull String inputString, @NotNull ArrayList<Character> splitedStringArray) {
         String[] splitedString = inputString.split("");
 
         for(int i = 0 ; i < splitedString.length ; i++){
             splitedStringArray.add(splitedString[i].charAt(0));
         }
+        return splitedStringArray;
     }
 
-    private void changeEnglish2Korean(@NotNull ArrayList<Character> splitedStringArray, @NotNull ArrayList<Character> splitedKoreanArray) {
+    private ArrayList<Character> changeEnglish2Korean(@NotNull ArrayList<Character> splitedStringArray, @NotNull ArrayList<Character> splitedKoreanArray) {
         for (int i = 0; i < splitedStringArray.size(); i++) {
             if (EnglishCharacters.contains(splitedStringArray.get(i))) {
                 splitedKoreanArray.add(KoreanCharacters.get(EnglishCharacters.indexOf(splitedStringArray.get(i))));
@@ -132,7 +129,9 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
             else {
                 splitedKoreanArray.add(splitedStringArray.get(i));
             }
-        }//특수문자의 상황 추가할 것
+        }
+
+        return splitedKoreanArray;
     }
 
     private static int chosungCodePoint(Character chosung){
@@ -190,7 +189,7 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint;
     }
 
-    private void assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
+    private ArrayList<Character> assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
         ArrayList<Character> tempArray = new ArrayList<>();  //중간 저장 문자열
         int i;
         int tempDoubleConsonantCodePoint;
@@ -305,6 +304,7 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
                 resultKoreanArray.add(splitedKoreanArray.get(i));
             }//i번째 문자가 한글이 아닌 경우 그냥 출력
         }
+        return resultKoreanArray;
     }
 
     @NotNull
@@ -315,19 +315,18 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         ArrayList<Character> resultKoreanArray = new ArrayList<>();
         String inputString = string.getValue();
         String tempString = null;
-        KeyboardString resultString = null;
-        splitInputString(inputString, splitedStringArray);
+        KeyboardString resultString;
+        splitedStringArray = splitInputString(inputString, splitedStringArray);
 
-
-        if(requireType == string.getType()){
-            changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
-            assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
+        if(requireType == KeyboardType.KOREAN && string.getType() == KeyboardType.ENGLISH){
+            splitedKoreanArray = changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
+            resultKoreanArray = assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
             for(int i = 0 ; i < resultKoreanArray.size() ; i++){
                 tempString += resultKoreanArray.get(i).toString();
             }
         }
-        resultString = new KeyboardString(tempString, KeyboardType.ENGLISH);
+        resultString = new KeyboardString(tempString, KeyboardType.KOREAN);
+
         return resultString;
     }
-
 }
