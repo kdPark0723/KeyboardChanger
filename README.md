@@ -19,6 +19,7 @@
 
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Run Project](#run-project)
 
 - [Usage](#usage)
 
@@ -47,6 +48,16 @@
 <!-- PREREQUISITIES -->
 
 ### Prerequisites
+
+JVM 설치
+
+1. https://www.oracle.com/technetwork/java/javase/downloads/index.html 접속
+
+2. Java SE 다운로드 탭의 JDKe 다운로드
+
+   ![캡처](https://user-images.githubusercontent.com/50135193/70119966-cb59c500-16ae-11ea-8880-129739fc6cbb.PNG)
+
+   
 
 <!-- INSTALLATION -->
 
@@ -90,45 +101,13 @@
    service jenkins start
    ```
 
-7. Jenkins 접속 후 Manage Jenkins > Manage plugins 에서 프로젝트에 필요한 SpringInitalzr plugin 다운로드
-
-8. Manage Jenkins > Global Tool Configuration에서 Git, Gradle 경로 입력(which git / which gradle 명령어로 위치 확인 가능)
-
-   ![1575438095464](https://user-images.githubusercontent.com/50135193/70116744-f4765780-16a6-11ea-99fa-2c0b4a91f226.png)
-
    
 
-   ![1575438165899](https://user-images.githubusercontent.com/50135193/70116750-f7714800-16a6-11ea-85c4-106f7a0e146f.png)
+<!-- RUN PROJECT -->
 
-   
+### Run Project
 
-9. Jenkins에서 New Item을 누른 후 Freestyle 선택 후 General에서 Github project url 입력
 
-   ![1575438195563](https://user-images.githubusercontent.com/50135193/70116755-f809de80-16a6-11ea-844c-7660dbb9e0b5.png)
-
-   
-
-10. Source Code Management에서 Repository URL 입력과 Credentials (github 아이디/비번) 추가
-
-    - Branch를 명시해줘야 Build시 오류가 발생하지 않음 (github에서 feature/cicd 브랜치를 만들어서 지정해준다)
-
-      ![1575438431384](https://user-images.githubusercontent.com/50135193/70116770-00621980-16a7-11ea-8dbf-033f8ad61674.png)
-
-      
-
-11. Build Environment에서 Build시 이전 workspace 삭제
-
-    ![1575438501492](https://user-images.githubusercontent.com/50135193/70116773-022bdd00-16a7-11ea-8cf3-51de637e50aa.png)
-
-    
-
-    
-
-12. Add Build step에서 Invoke Gradle script 선택 후 Use Gradle Wrapper 선택하고 Make gradlew executable 선택 (Tasks는 build , Switches 에서 --scan옵션을 추가함)
-
-    ![1575438578652](https://user-images.githubusercontent.com/50135193/70116775-035d0a00-16a7-11ea-8eda-77d1539e02a5.png)
-
-    
 
 <!-- USAGE EXAMPLE -->
 
