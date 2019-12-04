@@ -11,6 +11,18 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
         super(KeyboardType.JAPANESE);
     }
 
+    @NotNull
+    @Override
+    public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
+        String inputString = string.getValue();
+        KeyboardString resultString;
+        if(requireType == KeyboardType.JAPANESE && string.getType() == KeyboardType.ENGLISH){
+            inputString = changeEnlish2Japanese(inputString);
+            inputString = changeGatakana(inputString);
+        }
+        resultString = new KeyboardString(inputString, KeyboardType.JAPANESE);
+        return resultString;
+    }
 
     private String changeEnlish2Japanese(String English2JapaneseString){
         English2JapaneseString = English2JapaneseString.replaceAll("ka", "か");
@@ -274,21 +286,7 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
         JapaneseSubString = JapaneseSubString.replaceAll("お", "オ");
 
         JapaneseSubString = JapaneseSubString.replaceAll("ん", "ン");
-
-
+        
         return JapaneseSubString;
-    }
-
-    @NotNull
-    @Override
-    public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
-        String inputString = string.getValue();
-        KeyboardString resultString;
-        if(requireType == KeyboardType.JAPANESE && string.getType() == KeyboardType.ENGLISH){
-            inputString = changeEnlish2Japanese(inputString);
-            inputString = changeGatakana(inputString);
-        }
-        resultString = new KeyboardString(inputString, KeyboardType.JAPANESE);
-        return resultString;
     }
 }
