@@ -24,6 +24,7 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
     }
 
     private String changeEnlish2Japanese(String English2JapaneseString){
+        English2JapaneseString = English2JapaneseString.toLowerCase();
         English2JapaneseString = English2JapaneseString.replaceAll("ka", "か");
         English2JapaneseString = English2JapaneseString.replaceAll("ki", "き");
         English2JapaneseString = English2JapaneseString.replaceAll("ku", "く");
