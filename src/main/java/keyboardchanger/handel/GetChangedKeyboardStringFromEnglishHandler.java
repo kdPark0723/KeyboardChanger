@@ -26,167 +26,27 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
             Arrays.asList('ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅖ')
     );
 
-    private boolean isDoubleConsonant(Character consonant1, Character consonant2){
-        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
-            return true;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
-            return true;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
-            return true;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
-            return true;
-        else return consonant1.equals('ㅂ') && consonant2.equals('ㅅ');
-    }
+    @NotNull
+    @Override
+    public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
+        ArrayList<Character> splitedStringArray = new ArrayList<>();
+        ArrayList<Character> splitedKoreanArray = new ArrayList<>();
+        ArrayList<Character> resultKoreanArray = new ArrayList<>();
+        String inputString = string.getValue();
+        String tempString = null;
+        KeyboardString resultString;
+        splitedStringArray = splitInputString(inputString, splitedStringArray);
 
-    private int convertDoubleConsonant(Character consonant1, Character consonant2){
-        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
-            return 3;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
-            return 5;
-        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
-            return 6;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
-            return  9;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
-            return 10;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
-            return 11;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
-            return 12;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
-            return 13;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
-            return 14;
-        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
-            return 15;
-        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
-            return 18;
-        else
-            return 0;
-    }
-
-    private boolean isDoubleVowel(Character vowel1, Character vowel2){
-        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
-            return true;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
-            return true;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
-            return true;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
-            return true;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
-            return true;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
-            return true;
-        else return vowel1.equals('ㅡ') && vowel2.equals('ㅣ');
-    }
-
-    private int convertDoubleVowel(Character vowel1, Character vowel2){
-        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
-            return 9;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
-            return 10;
-        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
-            return 11;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
-            return 14;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
-            return 15;
-        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
-            return 16;
-        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
-            return 19;
-        else
-            return 0;
-    }
-
-    private ArrayList<Character> splitInputString(@NotNull String inputString, @NotNull ArrayList<Character> splitedStringArray) {
-        String[] splitedString = inputString.split("");
-
-        for(int i = 0 ; i < splitedString.length ; i++){
-            splitedStringArray.add(splitedString[i].charAt(0));
-        }
-        return splitedStringArray;
-    }
-
-    private ArrayList<Character> changeEnglish2Korean(@NotNull ArrayList<Character> splitedStringArray, @NotNull ArrayList<Character> splitedKoreanArray) {
-        for (int i = 0; i < splitedStringArray.size(); i++) {
-            if (EnglishCharacters.contains(splitedStringArray.get(i))) {
-                splitedKoreanArray.add(KoreanCharacters.get(EnglishCharacters.indexOf(splitedStringArray.get(i))));
-            }
-            else {
-                splitedKoreanArray.add(splitedStringArray.get(i));
+        if(requireType == KeyboardType.KOREAN && string.getType() == KeyboardType.ENGLISH){
+            splitedKoreanArray = changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
+            resultKoreanArray = assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
+            for(int i = 0 ; i < resultKoreanArray.size() ; i++){
+                tempString += resultKoreanArray.get(i).toString();
             }
         }
+        resultString = new KeyboardString(tempString, KeyboardType.KOREAN);
 
-        return splitedKoreanArray;
-    }
-
-    private static int chosungCodePoint(Character chosung){
-        final ArrayList<Character> chosungArray = new ArrayList<>(
-                Arrays.asList('ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
-        );
-
-        return chosungArray.indexOf(chosung);
-    }
-
-    private static int jungsungCodePoint(Character jungsung){
-        final ArrayList<Character> jungsungArray = new ArrayList<>(
-                Arrays.asList('ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ')
-        );
-
-        return jungsungArray.indexOf(jungsung);
-    }
-
-    private static int jongsungCodePoint(Character jongsung){
-        final ArrayList<Character> jongsungArray = new ArrayList<>(
-                Arrays.asList(' ', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ',
-                        'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
-        );
-
-        return jongsungArray.indexOf(jongsung);
-    }
-
-    private int assembleSyllable(Character chosung, Character jungsung, Character jongsung){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint(jongsung);
-    }
-
-    private int assembleSyllable(Character chosung, Character jungsung){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28;
-    }
-
-    private int assembleSyllable(Character chosung, int jungsungCodePoint){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28;
-    }
-
-    private int assembleSyllable(Character chosung, int jungsungCodePoint, Character jongsung){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28 + jongsungCodePoint(jongsung);
-    }
-
-    private int assembleSyllable(Character chosung, int jungsungCodePoint, int jongsungCodePoint){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28 + jongsungCodePoint;
-    }
-
-    private int assembleSyllable(Character chosung, Character jungsung, int jongsungCodePoint){
-        Character A = '\uAC00';
-        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint;
+        return resultString;
     }
 
     private ArrayList<Character> assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
@@ -195,7 +55,7 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         int tempDoubleConsonantCodePoint;
         int tempDoubleVowelCodePoint;
 
-        for (i = 0; i <= splitedKoreanArray.size() - 1; i++) {
+        for(i = 0; i <= splitedKoreanArray.size() - 1; i++) {
             tempArray.clear();
             if(KoreanCharacters.contains(splitedKoreanArray.get(i))){
                 if(KoreanConsonants.contains(splitedKoreanArray.get(i))){
@@ -307,26 +167,175 @@ public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboa
         return resultKoreanArray;
     }
 
-    @NotNull
-    @Override
-    public KeyboardString change(@NotNull KeyboardString string, @NotNull KeyboardType requireType) {
-        ArrayList<Character> splitedStringArray = new ArrayList<>();
-        ArrayList<Character> splitedKoreanArray = new ArrayList<>();
-        ArrayList<Character> resultKoreanArray = new ArrayList<>();
-        String inputString = string.getValue();
-        String tempString = null;
-        KeyboardString resultString;
-        splitedStringArray = splitInputString(inputString, splitedStringArray);
+    private boolean isDoubleConsonant(Character consonant1, Character consonant2){
+        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
+            return true;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
+            return true;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
+            return true;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
+            return true;
+        else return consonant1.equals('ㅂ') && consonant2.equals('ㅅ');
+    }
 
-        if(requireType == KeyboardType.KOREAN && string.getType() == KeyboardType.ENGLISH){
-            splitedKoreanArray = changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
-            resultKoreanArray = assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
-            for(int i = 0 ; i < resultKoreanArray.size() ; i++){
-                tempString += resultKoreanArray.get(i).toString();
+
+
+    private int convertDoubleConsonant(Character consonant1, Character consonant2){
+        if(consonant1.equals('ㄱ') && consonant2.equals('ㅅ'))
+            return 3;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅈ'))
+            return 5;
+        else if(consonant1.equals('ㄴ') && consonant2.equals('ㅎ'))
+            return 6;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㄱ'))
+            return  9;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅁ'))
+            return 10;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅂ'))
+            return 11;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅅ'))
+            return 12;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅌ'))
+            return 13;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅍ'))
+            return 14;
+        else if(consonant1.equals('ㄹ') && consonant2.equals('ㅎ'))
+            return 15;
+        else if(consonant1.equals('ㅂ') && consonant2.equals('ㅅ'))
+            return 18;
+        else
+            return 0;
+    }
+
+    private boolean isDoubleVowel(Character vowel1, Character vowel2){
+        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
+            return true;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
+            return true;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
+            return true;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
+            return true;
+        else return vowel1.equals('ㅡ') && vowel2.equals('ㅣ');
+    }
+
+    private int convertDoubleVowel(Character vowel1, Character vowel2){
+        if(vowel1.equals('ㅗ') && vowel2.equals('ㅏ'))
+            return 9;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅐ'))
+            return 10;
+        else if(vowel1.equals('ㅗ') && vowel2.equals('ㅣ'))
+            return 11;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅓ'))
+            return 14;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅔ'))
+            return 15;
+        else if(vowel1.equals('ㅜ') && vowel2.equals('ㅣ'))
+            return 16;
+        else if(vowel1.equals('ㅡ') && vowel2.equals('ㅣ'))
+            return 19;
+        else
+            return 0;
+    }
+
+    private ArrayList<Character> splitInputString(@NotNull String inputString, @NotNull ArrayList<Character> splitedStringArray) {
+        String[] splitedString = inputString.split("");
+
+        for(int i = 0 ; i < splitedString.length ; i++){
+            splitedStringArray.add(splitedString[i].charAt(0));
+        }
+
+        return splitedStringArray;
+    }
+
+    private ArrayList<Character> changeEnglish2Korean(@NotNull ArrayList<Character> splitedStringArray, @NotNull ArrayList<Character> splitedKoreanArray) {
+        for(int i = 0; i < splitedStringArray.size(); i++) {
+            if(EnglishCharacters.contains(splitedStringArray.get(i))) {
+                splitedKoreanArray.add(KoreanCharacters.get(EnglishCharacters.indexOf(splitedStringArray.get(i))));
+            }
+            else {
+                splitedKoreanArray.add(splitedStringArray.get(i));
             }
         }
-        resultString = new KeyboardString(tempString, KeyboardType.KOREAN);
 
-        return resultString;
+        return splitedKoreanArray;
+    }
+
+    private static int chosungCodePoint(Character chosung){
+        final ArrayList<Character> chosungArray = new ArrayList<>(
+                Arrays.asList('ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
+        );
+
+        return chosungArray.indexOf(chosung);
+    }
+
+    private static int jungsungCodePoint(Character jungsung){
+        final ArrayList<Character> jungsungArray = new ArrayList<>(
+                Arrays.asList('ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ')
+        );
+
+        return jungsungArray.indexOf(jungsung);
+    }
+
+    private static int jongsungCodePoint(Character jongsung){
+        final ArrayList<Character> jongsungArray = new ArrayList<>(
+                Arrays.asList(' ', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ',
+                        'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
+        );
+
+        return jongsungArray.indexOf(jongsung);
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung, Character jongsung){
+        Character A = '\uAC00';
+
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint(jongsung);
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung){
+        Character A = '\uAC00';
+
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28;
+    }
+
+    private int assembleSyllable(Character chosung, int jungsungCodePoint){
+        Character A = '\uAC00';
+
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28;
+    }
+
+    private int assembleSyllable(Character chosung, int jungsungCodePoint, Character jongsung){
+        Character A = '\uAC00';
+
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28 + jongsungCodePoint(jongsung);
+    }
+
+    private int assembleSyllable(Character chosung, int jungsungCodePoint, int jongsungCodePoint){
+        Character A = '\uAC00';
+
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint)*28 + jongsungCodePoint;
+    }
+
+    private int assembleSyllable(Character chosung, Character jungsung, int jongsungCodePoint){
+        Character A = '\uAC00';
+
+        return A + ((chosungCodePoint(chosung)*21) + jungsungCodePoint(jungsung))*28 + jongsungCodePoint;
     }
 }
