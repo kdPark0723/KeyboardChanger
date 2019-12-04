@@ -1,7 +1,7 @@
 package com.kdpark0723.keyboardchanger.route
 
-import keyboardchanger.handel.GetChangedKeyboardStringToJapaneseHandler
-import keyboardchanger.handel.GetChangedKeyboardStringToKoreanHandler
+import com.kdpark0723.keyboardchanger.handel.GetChangedKeyboardStringToJapaneseHandler
+import com.kdpark0723.keyboardchanger.handel.GetChangedKeyboardStringToKoreanHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType

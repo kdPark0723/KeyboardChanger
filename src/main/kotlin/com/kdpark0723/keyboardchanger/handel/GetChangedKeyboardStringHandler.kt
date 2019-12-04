@@ -23,7 +23,7 @@ abstract class GetChangedKeyboardStringHandler(
 
                 Mono.fromCallable { change(KeyboardString(value, type), requireType) }
                     .map {
-                        if (it.type != type) throw AppError(message = "Return type is not same.")
+                        if (it.type != requireType) throw AppError(message = "Return type is not same.")
 
                         it
                     }
