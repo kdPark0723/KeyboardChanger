@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 public class GetChangedKeyboardStringFromEnglishHandler extends GetChangedKeyboardStringHandler {
 
-
     static private final ArrayList<Character> KoreanCharacters = new ArrayList<>(
             Arrays.asList('ㅂ', 'ㅈ', 'ㄷ', 'ㄱ', 'ㅅ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅐ', 'ㅔ', 'ㅁ', 'ㄴ', 'ㅇ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅓ', 'ㅏ', 'ㅣ', 'ㅋ', 'ㅌ', 'ㅊ', 'ㅍ', 'ㅠ', 'ㅜ', 'ㅡ', 'ㅃ', 'ㅉ', 'ㄸ', 'ㄲ',
                     'ㅆ', 'ㅒ', 'ㅖ')
