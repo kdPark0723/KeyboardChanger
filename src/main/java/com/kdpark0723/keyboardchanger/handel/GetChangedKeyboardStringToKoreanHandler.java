@@ -26,7 +26,7 @@ public class GetChangedKeyboardStringToKoreanHandler extends GetChangedKeyboardS
             Arrays.asList('ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
     );
     static private final ArrayList<Character> KoreanVowels = new ArrayList<>(
-            Arrays.asList('ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅖ')
+            Arrays.asList('ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ', 'ㅔ' , 'ㅐ', 'ㅒ', 'ㅖ')
     );
 
     @NotNull
@@ -36,20 +36,21 @@ public class GetChangedKeyboardStringToKoreanHandler extends GetChangedKeyboardS
         ArrayList<Character> splitedKoreanArray = new ArrayList<>();
         ArrayList<Character> resultKoreanArray = new ArrayList<>();
         String inputString = string.getValue();
-        String tempString = null;
-        KeyboardString resultString;
+        String resultString = "";
+        KeyboardString resultKeyboardString;
         splitedStringArray = splitInputString(inputString, splitedStringArray);
 
         if (requireType == KeyboardType.KOREAN && string.getType() == KeyboardType.ENGLISH) {
             splitedKoreanArray = changeEnglish2Korean(splitedStringArray, splitedKoreanArray);
             resultKoreanArray = assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
+
             for (int i = 0; i < resultKoreanArray.size(); i++) {
-                tempString += resultKoreanArray.get(i).toString();
+                resultString.concat(resultKoreanArray.get(i).toString());
             }
         }
-        resultString = new KeyboardString(tempString, KeyboardType.KOREAN);
+        resultKeyboardString = new KeyboardString(resultString, KeyboardType.KOREAN);
 
-        return resultString;
+        return resultKeyboardString;
     }
 
     private ArrayList<Character> assembleSplitedKorean(@NotNull ArrayList<Character> splitedKoreanArray, @NotNull ArrayList<Character> resultKoreanArray) {
