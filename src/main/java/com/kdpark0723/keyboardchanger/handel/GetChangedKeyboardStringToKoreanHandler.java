@@ -45,7 +45,7 @@ public class GetChangedKeyboardStringToKoreanHandler extends GetChangedKeyboardS
             resultKoreanArray = assembleSplitedKorean(splitedKoreanArray, resultKoreanArray);
 
             for (int i = 0; i < resultKoreanArray.size(); i++) {
-                resultString.concat(resultKoreanArray.get(i).toString());
+                resultString = resultString.concat(resultKoreanArray.get(i).toString());
             }
         }
         resultKeyboardString = new KeyboardString(resultString, KeyboardType.KOREAN);
