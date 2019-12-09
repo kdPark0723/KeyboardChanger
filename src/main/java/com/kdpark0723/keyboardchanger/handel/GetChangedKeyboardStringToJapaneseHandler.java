@@ -49,8 +49,11 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
         English2JapaneseString = English2JapaneseString.replaceAll("se", "せ");
         English2JapaneseString = English2JapaneseString.replaceAll("so", "そ");
         English2JapaneseString = English2JapaneseString.replaceAll("sya", "しゃ");
+        English2JapaneseString = English2JapaneseString.replaceAll("sha", "しゃ");
         English2JapaneseString = English2JapaneseString.replaceAll("syu", "しゅ");
+        English2JapaneseString = English2JapaneseString.replaceAll("shu", "しゅ");
         English2JapaneseString = English2JapaneseString.replaceAll("syo", "しょ");
+        English2JapaneseString = English2JapaneseString.replaceAll("sho", "しょ");
 
         English2JapaneseString = English2JapaneseString.replaceAll("na", "な");
         English2JapaneseString = English2JapaneseString.replaceAll("ni", "に");
@@ -103,7 +106,9 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
         English2JapaneseString = English2JapaneseString.replaceAll("jo", "じょ");
 
         English2JapaneseString = English2JapaneseString.replaceAll("da", "だ");
+        English2JapaneseString = English2JapaneseString.replaceAll("zi", "ぢ");
         English2JapaneseString = English2JapaneseString.replaceAll("ji", "ぢ");
+        English2JapaneseString = English2JapaneseString.replaceAll("du", "づ");
         English2JapaneseString = English2JapaneseString.replaceAll("zu", "づ");
         English2JapaneseString = English2JapaneseString.replaceAll("de", "で");
         English2JapaneseString = English2JapaneseString.replaceAll("do", "ど");
@@ -157,7 +162,7 @@ public class GetChangedKeyboardStringToJapaneseHandler extends GetChangedKeyboar
         while (JapaneseString.indexOf(" ") != -1 && JapaneseString.indexOf(" ", JapaneseString.indexOf(" ") + 1) != -1) {
             JapaneseString = JapaneseString.replace(JapaneseString.substring(JapaneseString.indexOf(" "), JapaneseString.indexOf(" ", JapaneseString.indexOf(" ") + 1) + 1), changeHiragana2Gatakana(JapaneseString.substring(JapaneseString.indexOf(" "), JapaneseString.indexOf(" ", JapaneseString.indexOf(" ") + 1))));
         }
-        
+
         return JapaneseString;
     }
 
