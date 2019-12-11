@@ -132,7 +132,11 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 
 3. 결과 값이 브라우저 화면에 출력된다.
 
+   * 띄어쓰기 입력시 띄어쓰기를 기준으로 가타카나로 나타내준다
 
+     ![image](https://user-images.githubusercontent.com/50135193/70622122-8f9a9e80-1c5e-11ea-8e93-bf45f6588c24.png)
+
+     
 
 <!-- API-->
 
