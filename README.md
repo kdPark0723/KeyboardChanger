@@ -1,5 +1,6 @@
-  <h3 align="center">Keyboard Changer</h3>
+ <h3 align="center">Keyboard Changer</h3>
   <p align="center">
+
 
 
 
@@ -17,11 +18,15 @@
 
 - [Getting Started](#getting-started)
 
-  - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Run Project](#run-project)
+    - [Download](#download)
+    - [Build](#build)
+    - [Run](#run)
+    - [Run Script](#run-script)
 
 - [Usage](#usage)
+
+- [API](#api)
 
 - [License](#license)
 
@@ -31,7 +36,9 @@
 
 ## About The Project
 
-​	다들 한영키가 고장 나거나 기타 오류로 한글이 입력이 되지 않아 당황스러운 경우가 있었을 것 입니다. 저희는 또한 이런 경우가 있었고 이에 아이디어를 얻어 영어로 한글문장을 입력하면 한글로 출력하는 프로젝트를 기획하였습니다.
+	다들 한영키가 고장 나거나 기타 오류로 한글이 입력이 되지 않아 당황스러운 경우가 있었을 것 입니다. 저희는 또한 이런 경우가 있었고 이에 아이디어를 얻어 영어로 한글문장을 입력하면 한글로 출력하는 프로젝트를 기획하였습니다.
+	
+	또한 일본어도  일본어 로마자 표기법에 근거하여 같은 발음의 일본어로 출력이 가능합니다.
 
 ### Built with
 
@@ -45,67 +52,45 @@
 
 ## Getting Started
 
-<!-- PREREQUISITIES -->
-
-### Prerequisites
-
-JVM 설치
-
-1. https://www.oracle.com/technetwork/java/javase/downloads/index.html 접속
-
-2. Java SE 다운로드 탭의 JDKe 다운로드
-
-   ![캡처](https://user-images.githubusercontent.com/50135193/70119966-cb59c500-16ae-11ea-8880-129739fc6cbb.PNG)
-
-   
-
 <!-- INSTALLATION -->
 
 ### Installation
 
-1. 깃 설치
+<!-- DOWNLOAD -->
 
-   ```sh
-   sudo apt install git
-   ```
+#### Download
 
-2. Gradle 설치
+```sh
+git clone https://github.com/kdPark0723/KeyboardChanger
+```
 
-   ```sh
-   sudo apt-get install gradle
-   ```
+<!-- BUILD -->
 
-3. Gradle 패키지 설치 전 설정
+#### Build
 
-   ```sh
-   sudo wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add 
-   
-   sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
-   ```
+```sh
+sudo bash ./gradlew --scan build
+```
 
-4. https://jenkins.io/index.html에서 패키지 다운로드 후 업데이트
+<!-- RUN -->
 
-   ```sh
-   sudo apt-get update
-   ```
+#### Run
 
-5. jenkins 다운로드
+```sh
+java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
+```
 
-   ```sh
-   sudo apt-get install Jenkins
-   ```
+<!-- RUN SCRIPT -->
 
-6. jenkins 시작
+#### Run Script
 
-   ```sh
-   service jenkins start
-   ```
+```sh
+git clone https://github.com/kdPark0723/KeyboardChanger
+cd KeyboardChanger
 
-   
-
-<!-- RUN PROJECT -->
-
-### Run Project
+sudo bash ./gradlew --scan build
+java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
+```
 
 
 
@@ -113,7 +98,52 @@ JVM 설치
 
 ## Usage
 
-​	한글을 입력해야하지만 한영키가 고장났을 때 혹은 오류로 인하여 한글 입력이 불가능할 때 유용하게 사용이 가능합니다. 
+#### ENG -> KOR
+
+	한글을 입력해야하지만 한영키가 고장났을 때 혹은 오류로 인하여 한글 입력이 불가능할 때 유용하게 사용이 가능합니다. 
+
+1. Run Script 까지 진행 후 웹 브라우저를 연다.
+
+2. 검색 창에 "localhost:3000/korean/[변환하고 싶은 글자]?type=en" 를 입력한다.
+
+   (ex: dkssudgktpdy 입력)
+
+   ![image](https://user-images.githubusercontent.com/50135193/70551021-1184bc00-1bba-11ea-89db-0aeed003a190.png)
+
+3. 결과 값이 브라우저 화면에 출력된다.
+
+
+
+
+
+```
+일본어 입력이 불가능할때 일본어 로마자 표기법에 근거하여 영어로 일본어 발음과 동일하게 입력 시 일본어 출력이 가능합니다.
+```
+
+#### ENG -> JPN
+
+1. Run Script 까지 진행 후 웹 브라우저를 연다.
+
+2. 검색 창에 "localhost:3000/japanese/[변환하고 싶은 글자]?type=en" 를 입력한다.
+
+   (ex: arigato 입력)
+
+   ![image](https://user-images.githubusercontent.com/50135193/70612017-7affdb80-1c49-11ea-9469-b019eead1c3f.png)
+
+3. 결과 값이 브라우저 화면에 출력된다.
+
+
+
+<!-- API-->
+
+## API
+
+| 필드  | 타입   | 설명                 |
+| ----- | ------ | -------------------- |
+| value | string | 변환된 언어 출력     |
+| type  | string | 변환할 언어(Kor,Jpn) |
+
+
 
 
 
@@ -127,4 +157,3 @@ JVM 설치
 
 
 
-Git Hub Link: [ https://github.com/kdPark0723/KeyboardChanger ]( https://github.com/kdPark0723/KeyboardChanger )
