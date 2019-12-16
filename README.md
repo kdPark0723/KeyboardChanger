@@ -142,10 +142,18 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 
 ## API
 
-| 필드  | 타입   | 설명                 |
-| ----- | ------ | -------------------- |
-| value | string | 변환된 언어 출력     |
-| type  | string | 변환할 언어(Kor,Jpn) |
+#### 1. 요청변수
+
+| 필드 | 타입   | 설명                                        |
+| ---- | ------ | ------------------------------------------- |
+| type | string | 변환할 언어<br />1. korean<br />2. japanese |
+
+#### 2. 출력결과
+
+| 필드  | 타입   | 설명                                       |
+| ----- | ------ | ------------------------------------------ |
+| value | string | 변환된 언어 출력                           |
+| type  | string | 변환한 언어<br />1. korean<br />2.japanese |
 
 
 
