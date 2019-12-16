@@ -142,26 +142,27 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 
 ## API
 
+### 한글 변환
 #### 1.API 기본정보
 
 | API명           | 메서드 | 요청 URL                       | 출력 포맷 |
 | --------------- | ------ | :----------------------------- | --------- |
-| keyboardchanger | GET    | localhost:3000/korean/?type=en | JSON      |
+| keyboardchanger | GET    | localhost:3000/korean/{value}?type | JSON      |
 
 #### 2. 요청변수
 
 | 요청변수명 | 타입   | 필수 여부 | 설명                                        |
 | ---------- | ------ | :-------- | ------------------------------------------- |
-| type       | string | Yes       | 변환할 언어<br />1. korean<br />2. japanese |
+| value       | string | Yes       | 변환될 값 |
+| type       | string | Yes       | value의 값(ex: en) |
 
--   localhost:3000/korean/[요청변수]?type=en
 
 #### 3. 응답결과
 
 | 필드  | 타입   | 설명                                       |
 | ----- | ------ | ------------------------------------------ |
-| value | string | 변환된 언어 출력                           |
-| type  | string | 변환한 언어<br />1. korean<br />2.japanese |
+| value | string | 변환된 값 출력                           |
+| type  | string | KOREAN |
 
 #### 4. 응답코드
 
@@ -171,6 +172,35 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | 입력언어 오류 | 403       | Unsupported type error |
 | 미입력        | 404       | No matching handler    |
 
+
+### 일본어 변환
+#### 1.API 기본정보
+
+| API명           | 메서드 | 요청 URL                       | 출력 포맷 |
+| --------------- | ------ | :----------------------------- | --------- |
+| keyboardchanger | GET    | localhost:3000/japanese/{value}?type | JSON      |
+
+#### 2. 요청변수
+
+| 요청변수명 | 타입   | 필수 여부 | 설명                                        |
+| ---------- | ------ | :-------- | ------------------------------------------- |
+| value       | string | Yes       | 변환될 값 |
+| type       | string | Yes       | value의 값(ex: en) |
+
+#### 3. 응답결과
+
+| 필드  | 타입   | 설명                                       |
+| ----- | ------ | ------------------------------------------ |
+| value | string | 변환된 값 출력                           |
+| type  | string | JAPANESE |
+
+#### 4. 응답코드
+
+| 상태          | HTTP 코드 | 출력메세지             |
+| ------------- | --------- | ---------------------- |
+| 성공          | 200       |                        |
+| 입력언어 오류 | 403       | Unsupported type error |
+| 미입력        | 404       | No matching handler    |
 
 
 <!-- LICENSE -->
