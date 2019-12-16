@@ -146,7 +146,7 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 
 | API명           | 메서드 | 요청 URL                        | 출력 포맷 |
 | --------------- | ------ | :------------------------------ | --------- |
-| keyboardchanger | GET    | localhost:3000/korean/?type=kor | JSON      |
+| keyboardchanger | GET    | localhost:3000/korean/?type=en | JSON      |
 
 #### 2. 요청변수
 
