@@ -141,7 +141,6 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 <!-- API-->
 
 ## API
-
 ### 한글 변환
 #### 1.API 기본정보
 
@@ -201,7 +200,11 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | 성공          | 200       |                        |
 | 입력언어 오류 | 403       | Unsupported type error |
 | 미입력        | 404       | No matching handler    |
-
+=======
+| 필드  | 타입   | 설명                 |
+| ----- | ------ | -------------------- |
+| value | string | 변환된 언어 출력     |
+| type  | string | 변환할 언어(Kor,Jpn) |
 
 <!-- LICENSE -->
 
