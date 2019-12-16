@@ -155,7 +155,13 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | value | string | 변환된 언어 출력                           |
 | type  | string | 변환한 언어<br />1. korean<br />2.japanese |
 
+#### 3. 응답코드
 
+| 상태          | HTTP 코드 | 출력메세지             |
+| ------------- | --------- | ---------------------- |
+| 성공          | 200       |                        |
+| 입력언어 오류 | 403       | Unsupported type error |
+| 미입력        | 404       | No matching handler    |
 
 
 
