@@ -10,7 +10,6 @@
 
 
 
-
 ## Table of Contents
 
 - [About the Project](#about-the-project)
@@ -145,8 +144,8 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 
 #### 1.API 기본정보
 
-| API명           | 메서드 | 요청 URL                        | 출력 포맷 |
-| --------------- | ------ | :------------------------------ | --------- |
+| API명           | 메서드 | 요청 URL                       | 출력 포맷 |
+| --------------- | ------ | :----------------------------- | --------- |
 | keyboardchanger | GET    | localhost:3000/korean/?type=en | JSON      |
 
 #### 2. 요청변수
@@ -154,6 +153,8 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | 요청변수명 | 타입   | 필수 여부 | 설명                                        |
 | ---------- | ------ | :-------- | ------------------------------------------- |
 | type       | string | Yes       | 변환할 언어<br />1. korean<br />2. japanese |
+
+-   localhost:3000/korean/[요청변수]?type=en
 
 #### 3. 응답결과
 
