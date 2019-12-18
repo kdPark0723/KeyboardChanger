@@ -147,7 +147,6 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | API명           | 메서드 | 요청 URL                       | 출력 포맷 |
 | --------------- | ------ | :----------------------------- | --------- |
 | keyboardchanger | GET    | localhost:3000/korean/{value}?type | JSON      |
-
 #### 2. 요청변수
 
 | 요청변수명 | 타입   | 필수 여부 | 설명                                        |
@@ -155,13 +154,12 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | value       | string | Yes       | 변환될 값 |
 | type       | string | Yes       | value의 값(ex: en) |
 
-
 #### 3. 응답결과
 
 | 필드  | 타입   | 설명                                       |
 | ----- | ------ | ------------------------------------------ |
 | value | string | 변환된 값 출력                           |
-| type  | string | KOREAN |
+| type  | string | JAPANESE |
 
 #### 4. 응답코드
 
@@ -170,11 +168,8 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | 성공          | 200       |                        |
 | 입력언어 오류 | 403       | Unsupported type error |
 | 미입력        | 404       | No matching handler    |
-
-
 ### 일본어 변환
 #### 1.API 기본정보
-
 | API명           | 메서드 | 요청 URL                       | 출력 포맷 |
 | --------------- | ------ | :----------------------------- | --------- |
 | keyboardchanger | GET    | localhost:3000/japanese/{value}?type | JSON      |
@@ -200,11 +195,7 @@ java -jar build/libs/KeyboardChanger-0.0.1-SNAPSHOT.jar
 | 성공          | 200       |                        |
 | 입력언어 오류 | 403       | Unsupported type error |
 | 미입력        | 404       | No matching handler    |
-=======
-| 필드  | 타입   | 설명                 |
-| ----- | ------ | -------------------- |
-| value | string | 변환된 언어 출력     |
-| type  | string | 변환할 언어(Kor,Jpn) |
+
 
 <!-- LICENSE -->
 
